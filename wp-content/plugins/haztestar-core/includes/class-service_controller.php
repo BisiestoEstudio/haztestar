@@ -6,7 +6,6 @@ class Service_Controller {
 
 	static function init(){
 		// Hook into WooCommerce order creation
-		error_log('HazTestar: Service Controller initialized');
 		add_action('woocommerce_new_order', array(__CLASS__, 'log_order_data'), 10, 1);
 	}
 
@@ -16,19 +15,25 @@ class Service_Controller {
 	 * @param int $order_id The order ID
 	 */
 	static function log_order_data($order_id) {
-		error_log('HazTestar: Logging order data for order ID: ' . $order_id);
 		// Get the order object
 		$order = wc_get_order($order_id);
 		
 		if (!$order) {
-			error_log('HazTestar: Failed to get order object for order ID: ' . $order_id);
 			return;
 		}
 
 		// Format date as dd/mm/YYYY
 		$date_created = $order->get_date_created();
 		$fecha = $date_created->date('d/m/Y');
-		$preferida = $order->get_meta('_billing_preferencia') ?: '';
+		$preferida_data = $order->get_meta('_billing_promocion') ?: '';
+		error_log('HazTestar: Preferencia data: ' . $preferida_data);
+		$preferida_data = explode('__', $preferida_data);
+		error_log('HazTestar: Preferencia data: ' . print_r($preferida_data, true));
+		$preferida = $preferida_data[0] ?? '';
+		$preferida = strtoupper($preferida);
+		$codigo_oficina = $preferida_data[1] ?? '';
+		$codigo_oficina = strtoupper($codigo_oficina);
+
 		$dni = $order->get_meta('_billing_nif') ?: '';
 
 		// Get all order data
@@ -46,6 +51,7 @@ class Service_Controller {
 			'CODIGO_POSTAL' => $order_data['billing']['postcode'],
 			'PREFERIDA-1' => $preferida,
 			'DOCUMENTO' => $dni,
+			'OFICINA' => $codigo_oficina,
 		);
 
 

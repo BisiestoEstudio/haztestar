@@ -24,6 +24,7 @@ class Api_Hercesa {
 		$url = $this->api_url;
 		$response = wp_remote_post($url, array(
 			'method' => 'POST',
+			'timeout' => 30,
 			'headers' => array(
 				'Authorization' => 'Basic ' . base64_encode($this->user_name . ':' . $this->api_key)
 			),
@@ -36,7 +37,7 @@ class Api_Hercesa {
 		}
 
 		$response_body = json_decode($response['body'], true);
-		error_log('HazTestar: Contact sent: ' . print_r($response_body, true));
+		return $response;
 	}
 
 
