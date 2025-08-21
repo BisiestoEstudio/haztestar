@@ -6,7 +6,7 @@ class Service_Controller {
 
 	static function init(){
 		// Hook into WooCommerce order creation
-		add_action('woocommerce_order_status_completed', array(__CLASS__, 'log_order_data'), 10, 1);
+		add_action('woocommerce_order_status_completed', array(__CLASS__, 'send_to_prinex'), 10, 1);
 		
 	}
 
@@ -15,7 +15,7 @@ class Service_Controller {
 	 * 
 	 * @param int $order_id The order ID
 	 */
-	static function log_order_data($order_id) {
+	static function send_to_prinex($order_id) {
 		// Get the order object
 		$order = wc_get_order($order_id);
 		

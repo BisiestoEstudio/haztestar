@@ -71,6 +71,7 @@ class Loader
         //Write here the require_once statements.
 		require_once 'class-api_hercesa.php';
 		require_once 'class-service_controller.php';
+		require_once 'class-order.php';
 
     }
 
