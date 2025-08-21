@@ -33,13 +33,24 @@ class Api_Hercesa {
 
 		if (is_wp_error($response)) {
 			error_log('HazTestar: Error sending contact: ' . $response->get_error_message());
+			// Send notification email about the error
+			self::send_notification_email($data);
+			
 			return false;
 		}
 
-		$response_body = json_decode($response['body'], true);
 		return $response;
 	}
 
+	static function send_notification_email($data) {
+		error_log('Los mails se deberían haber mandado');	
+		$to = CONTACT_MAILS;
+		$subject = 'Error en el envío de datos de Hazte Star';
+		$message = "Ha habido un error al enviar los datos de Hazte Star.\n\nDatos:\n" . $data;
+		$headers = array('Content-Type: text/html; charset=UTF-8');
+		wp_mail($to, $subject, $message, $headers);
+
+	}
 
 }
 

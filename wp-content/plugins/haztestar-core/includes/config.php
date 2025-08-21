@@ -11,8 +11,18 @@ const PLUGIN_URL = (WP_PLUGIN_URL . '/' . PLUGIN_NAME . '/' );      // Slash at 
 const PROD_API_URL = "https://hercesa.com/wp-json/hercesa-api/v1/haztestar";
 const TEST_API_URL = "https://hercesa.local:54284//wp-json/hercesa-api/v1/haztestar";
 
-const API_URL = TEST_API_URL;
+const API_URL = PROD_API_URL;
 
-const API_KEY = 'B2FN DNXS 5LjO opnZ 2NWY Kth0'; 
-const USER_NAME = 'bisiesto';
+
+const API_KEY_PROD = 'QuCO WwTG sSRt Opx7 qG1U EIKZ'; 
+const API_KEY_LOCAL = 'B2FN DNXS 5LjO opnZ 2NWY Kth0'; 
+const API_KEY = API_KEY_PROD;
+const USER_NAME = 'haztestar';
+
+const CONTACT_MAILS = array(
+    'pvazquez@hercesa.com',
+    'dparra@hercesa.com',
+    'smarcos@hercesa.com',
+    'elena@bisiesto.es',
+);
 

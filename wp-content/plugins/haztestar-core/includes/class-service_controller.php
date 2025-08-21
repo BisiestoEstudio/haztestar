@@ -6,7 +6,8 @@ class Service_Controller {
 
 	static function init(){
 		// Hook into WooCommerce order creation
-		add_action('woocommerce_new_order', array(__CLASS__, 'log_order_data'), 10, 1);
+		add_action('woocommerce_order_status_completed', array(__CLASS__, 'log_order_data'), 10, 1);
+		
 	}
 
 	/**
@@ -25,14 +26,13 @@ class Service_Controller {
 		// Format date as dd/mm/YYYY
 		$date_created = $order->get_date_created();
 		$fecha = $date_created->date('d/m/Y');
-		$preferida_data = $order->get_meta('_billing_promocion') ?: '';
-		error_log('HazTestar: Preferencia data: ' . $preferida_data);
-		$preferida_data = explode('__', $preferida_data);
-		error_log('HazTestar: Preferencia data: ' . print_r($preferida_data, true));
-		$preferida = $preferida_data[0] ?? '';
-		$preferida = strtoupper($preferida);
-		$codigo_oficina = $preferida_data[1] ?? '';
-		$codigo_oficina = strtoupper($codigo_oficina);
+		$slug = $order->get_meta('_billing_promocion') ?: '';
+		$piso = $order->get_meta('_billing_piso') ?: '';
+		$puerta = $order->get_meta('_billing_puerta') ?: '';
+		$escalera = $order->get_meta('_billing_escalera') ?: '';
+		$numero = $order->get_meta('_billing_numero') ?: '';
+		$numero_dormitorios = $order->get_meta('_billing_dormitorios') ?: '';
+
 
 		$dni = $order->get_meta('_billing_nif') ?: '';
 
@@ -45,19 +45,25 @@ class Service_Controller {
 			'NOMBRE' => $order_data['billing']['first_name'],
 			'APELLIDOS' => $order_data['billing']['last_name'],
 			'EMAIL' => $order_data['billing']['email'],
-			'TELEFONO' => $order_data['billing']['phone'],
+			'MOVIL' => $order_data['billing']['phone'],
 			'DOMICILIO' => $order_data['billing']['address_1'],
 			'CIUDAD' => $order_data['billing']['city'],
-			'CODIGO_POSTAL' => $order_data['billing']['postcode'],
-			'PREFERIDA-1' => $preferida,
+			'PREFERIDA_SLUG' => $slug,
+			'NUMERO_DORMITORIOS' => $numero_dormitorios,
 			'DOCUMENTO' => $dni,
-			'OFICINA' => $codigo_oficina,
+			'CODIGO_POSTAL' => $order_data['billing']['postcode'],
+			'PISO' => $piso,
+			'PUERTA' => $puerta,
+			'ESCALERA' => $escalera,
+			'NUMERO_VIA' => $numero
 		);
 
 
 		$api_hercesa = new Api_Hercesa($data);
 		$response = $api_hercesa->send_contact($data);
+
 		error_log('HazTestar: Response: ' . print_r($response, true));
+		error_log('HazTestar: Data: ' . print_r($data, true));
 	}
 }
 
