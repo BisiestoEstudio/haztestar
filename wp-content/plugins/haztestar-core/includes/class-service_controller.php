@@ -32,7 +32,7 @@ class Service_Controller {
 		$escalera = $order->get_meta('_billing_escalera') ?: '';
 		$numero = $order->get_meta('_billing_numero') ?: '';
 		$numero_dormitorios = $order->get_meta('_billing_dormitorios') ?: '';
-
+		$tipo_via = $order->get_meta('_billing_via') ?: '';
 
 		$dni = $order->get_meta('_billing_nif') ?: '';
 
@@ -49,13 +49,14 @@ class Service_Controller {
 			'DOMICILIO' => $order_data['billing']['address_1'],
 			'CIUDAD' => $order_data['billing']['city'],
 			'PREFERIDA_SLUG' => $slug,
-			'NUMERO_DORMITORIOS' => $numero_dormitorios,
+			'DORMITORIOS' => $numero_dormitorios,
 			'DOCUMENTO' => $dni,
 			'CODIGO_POSTAL' => $order_data['billing']['postcode'],
 			'PISO' => $piso,
 			'PUERTA' => $puerta,
 			'ESCALERA' => $escalera,
-			'NUMERO_VIA' => $numero
+			'NUMERO_VIA' => $numero,
+			'TIPO_VIA' => $tipo_via,
 		);
 
 
