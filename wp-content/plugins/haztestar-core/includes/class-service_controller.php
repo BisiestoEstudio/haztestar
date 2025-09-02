@@ -18,6 +18,8 @@ class Service_Controller {
 	static function send_to_prinex($order_id) {
 		// Get the order object
 		$order = wc_get_order($order_id);
+		//order number
+		$order_number = $order->get_order_number();
 		
 		if (!$order) {
 			return;
@@ -40,7 +42,7 @@ class Service_Controller {
 		$order_data = $order->get_data();
 
 		$data = array(
-			'STAR' => $order_id,
+			'STAR' => $order_number,
 			'FECHA' => $fecha,
 			'NOMBRE' => $order_data['billing']['first_name'],
 			'APELLIDOS' => $order_data['billing']['last_name'],
